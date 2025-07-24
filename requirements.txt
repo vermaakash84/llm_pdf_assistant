@@ -1,9 +1,9 @@
 streamlit
 langchain==0.1.14
+langchain-community==0.0.38
 chromadb==0.4.24
 transformers
 sentence-transformers
 pymupdf
 faiss-cpu
 tqdm
-
