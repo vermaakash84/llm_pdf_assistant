@@ -1,21 +1,15 @@
-# Core libraries
+# LLM PDF Assistant Requirements
+
 streamlit==1.27.2
 langchain==0.1.14
 langchain-community==0.0.38
 sentence-transformers==2.6.1
 faiss-cpu==1.7.4
-
-# Hugging Face for LLM pipeline
 transformers==4.41.1
 accelerate==0.31.0
-
-# PDF parsing
+torch==2.5.0
 PyMuPDF==1.22.5
-
-# Utilities
+python-dotenv==1.0.1
 tqdm
 numpy
 scikit-learn
-
-# For running LLM pipeline
-torch==2.2.2
