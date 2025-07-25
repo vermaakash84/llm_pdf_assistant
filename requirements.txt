@@ -1,9 +1,7 @@
 streamlit
-langchain
 transformers
-sentence-transformers
-huggingface-hub
+torch
+langchain
 langchain-community
 langchain-huggingface
-chromadb
-PyMuPDF
+sentence-transformers
