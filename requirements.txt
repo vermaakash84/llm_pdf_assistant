@@ -1,15 +1,9 @@
-# LLM PDF Assistant Requirements
-
-streamlit==1.27.2
-langchain==0.1.14
-langchain-community==0.0.38
-sentence-transformers==2.6.1
-faiss-cpu==1.7.4
-transformers==4.41.1
-accelerate==0.31.0
-torch==2.5.0
-PyMuPDF==1.22.5
-python-dotenv==1.0.1
-tqdm
-numpy
-scikit-learn
+streamlit
+langchain
+transformers
+sentence-transformers
+huggingface-hub
+langchain-community
+langchain-huggingface
+chromadb
+PyMuPDF

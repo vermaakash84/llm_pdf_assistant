@@ -1,69 +1,38 @@
 import streamlit as st
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
-from langchain.llms import HuggingFacePipeline
-from transformers import pipeline
+from langchain_community.vectorstores import Chroma
+from langchain_huggingface import HuggingFacePipeline
+from langchain.embeddings import HuggingFaceEmbeddings
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
-# ---------------------- SETUP ----------------------
+# Sidebar: Batch toggle
+batch = st.sidebar.selectbox("Select Batch", ["db_batch_1", "db_batch_2"])
 
-st.set_page_config(page_title="LLM PDF Assistant", layout="wide")
-st.title("📚 LLM PDF Research Assistant")
+# Load vector DB
+path = f"./{batch}_chroma"
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+db = Chroma(persist_directory=path, embedding_function=embeddings)
+retriever = db.as_retriever()
 
-# Dropdown to select batch
-batch_option = st.selectbox(
-    "Select vector store batch:",
-    ("faiss_batch_1", "faiss_batch_2")
-)
+# Load model pipeline
+model_name = "google/flan-t5-base"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+pipe = pipeline("text2text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+llm = HuggingFacePipeline(pipeline=pipe)
 
-# Load embedding model
-@st.cache_resource
-def load_embeddings():
-    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+# RetrievalQA chain
+qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, return_source_documents=True)
 
-# Load vector store
-@st.cache_resource
-def load_vectorstore(batch_name):
-    embeddings = load_embeddings()
-    return FAISS.load_local(
-        folder_path=batch_name,
-        embeddings=embeddings,
-        allow_dangerous_deserialization=True
-    )
-
-# Load QA chain
-@st.cache_resource
-def load_qa_chain(vectordb):
-    pipe = pipeline(
-        "text2text-generation",
-        model="google/flan-t5-base",
-        max_length=512
-    )
-    llm = HuggingFacePipeline(pipeline=pipe)
-    return RetrievalQA.from_chain_type(
-        llm=llm,
-        retriever=vectordb.as_retriever(search_kwargs={"k": 3}),
-        return_source_documents=True
-    )
-
-# ---------------------- UI ----------------------
-
-st.info(f"🔍 Using vector store: `{batch_option}`")
-
-# Load selected FAISS vector store
-vectordb = load_vectorstore(batch_option)
-qa_chain = load_qa_chain(vectordb)
-
-# User query input
-query = st.text_input("💬 Ask a question based on the PDFs:", "")
-
-# Run QA on query
-if query:
-    with st.spinner("🔎 Generating answer..."):
-        response = qa_chain.invoke({"query": query})
+# Streamlit UI
+st.title("📄 LLM PDF Research Assistant")
+query = st.text_input("Ask your question:")
+if st.button("Get Answer") and query:
+    with st.spinner("Thinking..."):
+        response = qa_chain.invoke(query)
         st.subheader("🧠 Answer")
-        st.write(response["result"])
+        st.write(response['result'])
 
-        st.subheader("📚 Source Documents")
-        for doc in response["source_documents"]:
-            st.markdown(f"- `{doc.metadata['source']}`")
+        st.subheader("📄 Source Documents")
+        for doc in response['source_documents'][:3]:
+            st.markdown(f"- {doc.metadata['source']}")

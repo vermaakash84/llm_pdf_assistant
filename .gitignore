@@ -1,0 +1,13 @@
+_pycache_/
+*.py[cod]
+*.ipynb_checkpoints
+.vscode/
+.DS_Store
+.env
+secrets.toml
+*.ipynb
+db_batch_1_chroma/
+db_batch_2_chroma/
+*.zip
+.venv/
+env/
