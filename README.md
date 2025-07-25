@@ -1,79 +1,87 @@
 
-# 🤖 LLM PDF Research Assistant App (LangChain + FAISS)
+# 📄 LLM PDF Research Assistant (LangChain + Chroma + Streamlit)
 
-Ask questions from your legal or research PDFs and get AI-powered answers with source citations — right in your browser using Streamlit!
+Ask intelligent questions from 400+ PDF documents using a local Large Language Model (LLM), vector search, and a beautiful Streamlit interface. Supports **batch toggle** with pre-built ChromaDB vector stores stored as ZIPs for efficient cloud deployment.
+
+![LLM PDF Assistant Banner](https://i.imgur.com/INvPIVW.png)
 
 ---
 
-## 🔍 Features
+## 🚀 Features
 
-- ✅ Ask natural language questions to your PDF documents.
-- ✅ Supports **batch switching** between different vector stores (`faiss_batch_1`, `faiss_batch_2`).
-- ✅ Displays relevant **source documents** used for each answer.
-- ✅ Powered by `LangChain`, `FAISS`, and Hugging Face models.
-- ✅ Deployed with Streamlit Cloud.
+- 🔍 **Semantic search** over PDFs using `ChromaDB` and `MiniLM` embeddings  
+- 🤖 **Question-answering** with `FLAN-T5` from Hugging Face  
+- 📂 **Batch switching** to load different document sets  
+- ⚡ **Fast & lightweight** — no OpenAI API key needed  
+-☁️ **Streamlit Cloud-ready** with ZIP-compressed vector DBs  
+
+---
+
+## 🧠 Tech Stack
+
+| Tool/Library       | Purpose                             |
+|--------------------|-------------------------------------|
+| `LangChain`        | RetrievalQA and LLM orchestration   |
+| `ChromaDB`         | Vector store for document chunks    |
+| `Transformers`     | FLAN-T5 model for QA                |
+| `HuggingFace`      | Embeddings & model loading          |
+| `Streamlit`        | UI and deployment                   |
+| `zipfile`, `os`    | Dynamic unzip on load               |
 
 ---
 
 ## 📁 Folder Structure
 
 ```
-llm-pdf-assistant-app/
-├── app.py                      # Main Streamlit app
-├── requirements.txt            # Python dependencies
-├── faiss_batch_1/              # Vector store for Batch 1 PDFs
-│   ├── index.faiss
-│   └── index.pkl
-├── faiss_batch_2/              # Vector store for Batch 2 PDFs
-│   ├── index.faiss
-│   └── index.pkl
+llm_pdf_assistant/
+├── app.py                     # Main Streamlit app
+├── db_batch_1.zip             # Chroma ZIP for batch 1
+├── db_batch_2.zip             # Chroma ZIP for batch 2
+├── requirements.txt           # Streamlit Cloud requirements
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 🚀 Run Locally
+## ✅ How to Run Locally
 
-```bash
-git clone https://github.com/vermaakash84/llm-pdf-assistant-app.git
-cd llm-pdf-assistant-app
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/vermaakash84/llm_pdf_assistant.git
+   cd llm_pdf_assistant
+   ```
 
-# Create a virtual environment (optional but recommended)
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+2. **Create a virtual environment (optional)**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # or venv\Scripts\activate on Windows
+   ```
 
-# Install dependencies
-pip install -r requirements.txt
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-# Run the app
-streamlit run app.py
-```
-
----
-
-## 🌐 Live Demo
-
-> 🔗 [Streamlit App](https://llm-pdf-assistant-app-akash.streamlit.app)  
-> 🔗 [GitHub Repo](https://github.com/vermaakash84/llm-pdf-assistant-app)
-
----
-
-## 🧠 Powered By
-
-- [LangChain](https://www.langchain.com/)
-- [FAISS Vector Store](https://github.com/facebookresearch/faiss)
-- [Transformers (Flan-T5)](https://huggingface.co/google/flan-t5-base)
-- [Streamlit](https://streamlit.io/)
-- [PyMuPDF](https://pymupdf.readthedocs.io/en/latest/)
+4. **Run the app**
+   ```bash
+   streamlit run app.py
+   ```
 
 ---
 
-## 📜 License
+## 🌐 Deploy to Streamlit Cloud
 
-This project is licensed under the [MIT License](LICENSE).
+Just push your code (with `app.py`, `requirements.txt`, and zipped `db_batch_*.zip` files) to your GitHub repo and deploy on [streamlit.io/cloud](https://streamlit.io/cloud). It auto-detects the app!
 
 ---
 
-## ✍️ Author
+## 📷 Preview
 
-Built with ❤️ by [Akash Verma](https://www.linkedin.com/in/vermaakash84)
+![App Screenshot](https://i.imgur.com/XqFgYJP.png)
+
+---
+
+## 🙋‍♂️ About Me
+
+Made with ❤️ by [Akash Verma](https://www.linkedin.com/in/vermaakash84)
