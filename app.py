@@ -4,7 +4,7 @@ import zipfile
 from langchain.chains import RetrievalQA
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFacePipeline
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings  # ✅ updated import
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
 # -----------------------------
