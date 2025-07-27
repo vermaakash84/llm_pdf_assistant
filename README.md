@@ -1,87 +1,51 @@
 
-# 📄 LLM PDF Research Assistant (LangChain + Chroma + Streamlit)
+# 📄 LLM PDF Research Assistant (LangChain + ChromaDB)
 
-Ask intelligent questions from 400+ PDF documents using a local Large Language Model (LLM), vector search, and a beautiful Streamlit interface. Supports **batch toggle** with pre-built ChromaDB vector stores stored as ZIPs for efficient cloud deployment.
+Ask questions from research/legal PDFs using a fine-tuned FLAN-T5 model and vector search powered by ChromaDB.
 
-![LLM PDF Assistant Banner](https://i.imgur.com/INvPIVW.png)
+## 🚀 Deploy with One Click on Streamlit Cloud
 
----
+[![Deploy to Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/)
 
-## 🚀 Features
+> **Instructions:**
+> - Make sure your repo is public or linked with Streamlit Cloud.
+> - Upload the zipped vector stores: `db_batch_1.zip` and `db_batch_2.zip`.
+> - Then click the button above to deploy.
 
-- 🔍 **Semantic search** over PDFs using `ChromaDB` and `MiniLM` embeddings  
-- 🤖 **Question-answering** with `FLAN-T5` from Hugging Face  
-- 📂 **Batch switching** to load different document sets  
-- ⚡ **Fast & lightweight** — no OpenAI API key needed  
--☁️ **Streamlit Cloud-ready** with ZIP-compressed vector DBs  
+## 🛠 Requirements
 
----
+- Python 3.9+
+- Install dependencies:
 
-## 🧠 Tech Stack
+```bash
+pip install -r requirements.txt
+```
 
-| Tool/Library       | Purpose                             |
-|--------------------|-------------------------------------|
-| `LangChain`        | RetrievalQA and LLM orchestration   |
-| `ChromaDB`         | Vector store for document chunks    |
-| `Transformers`     | FLAN-T5 model for QA                |
-| `HuggingFace`      | Embeddings & model loading          |
-| `Streamlit`        | UI and deployment                   |
-| `zipfile`, `os`    | Dynamic unzip on load               |
-
----
-
-## 📁 Folder Structure
+## 📂 Folder Structure
 
 ```
-llm_pdf_assistant/
-├── app.py                     # Main Streamlit app
-├── db_batch_1.zip             # Chroma ZIP for batch 1
-├── db_batch_2.zip             # Chroma ZIP for batch 2
-├── requirements.txt           # Streamlit Cloud requirements
+.
+├── app.py
+├── db_batch_1.zip
+├── db_batch_2.zip
+├── requirements.txt
 ├── .gitignore
 └── README.md
 ```
 
----
+## 🔁 Features
 
-## ✅ How to Run Locally
+- Batch toggle: `db_batch_1` or `db_batch_2`
+- FLAN-T5 for answering questions
+- Source document reference
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/vermaakash84/llm_pdf_assistant.git
-   cd llm_pdf_assistant
-   ```
+## 📜 License
 
-2. **Create a virtual environment (optional)**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # or venv\Scripts\activate on Windows
-   ```
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 🙏 Acknowledgements
 
-4. **Run the app**
-   ```bash
-   streamlit run app.py
-   ```
-
----
-
-## 🌐 Deploy to Streamlit Cloud
-
-Just push your code (with `app.py`, `requirements.txt`, and zipped `db_batch_*.zip` files) to your GitHub repo and deploy on [streamlit.io/cloud](https://streamlit.io/cloud). It auto-detects the app!
-
----
-
-## 📷 Preview
-
-![App Screenshot](https://i.imgur.com/XqFgYJP.png)
-
----
-
-## 🙋‍♂️ About Me
-
-Made with ❤️ by [Akash Verma](https://www.linkedin.com/in/vermaakash84)
+- [LangChain](https://github.com/langchain-ai/langchain)
+- [Hugging Face Transformers](https://huggingface.co)
+- [Streamlit](https://streamlit.io)
+- [ChromaDB](https://www.trychroma.com)
