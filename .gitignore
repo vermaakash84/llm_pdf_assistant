@@ -1,11 +1,42 @@
+# Python cache
 __pycache__/
-*.pyc
-*.pkl
-*.db
-*.log
-*.sqlite
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
 .env
-*.DS_Store
-*.ipynb_checkpoints/
+
+# IDE/editor settings
+.vscode/
+.idea/
+
+# Streamlit logs/cache
+.streamlit/
+logs/
+*.log
+
+# Hugging Face cache
+~/.cache/
+~/.huggingface/
+huggingface/
+
+# Model weights/checkpoints
+*.bin
+*.pt
+*.h5
+*.ckpt
+
+# ZIP files (Chroma DB)
+db_batch_1.zip
+db_batch_2.zip
+
+# Extracted Chroma DB folders
 db_batch_1_chroma/
 db_batch_2_chroma/
+
+# Mac and Windows junk files
+.DS_Store
+Thumbs.db
