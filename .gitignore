@@ -33,10 +33,6 @@ huggingface/
 # db_batch_1.zip
 # db_batch_2.zip
 
-# Extracted Chroma DB folders
-db_batch_1_chroma/
-db_batch_2_chroma/
-
 # Mac and Windows junk files
 .DS_Store
 Thumbs.db
