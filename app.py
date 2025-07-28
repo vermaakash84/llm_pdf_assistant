@@ -15,13 +15,7 @@ batch = st.sidebar.selectbox("Select Batch", ["db_batch_1", "db_batch_2"])
 # -----------------------------
 # Step 1: Unzip if not already
 # -----------------------------
-zip_path = f"{batch}.zip"
 extract_path = f"{batch}_chroma"
-
-if not os.path.exists(extract_path):
-    st.sidebar.info(f"Extracting {zip_path}...")
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall(extract_path)
 
 # -----------------------------
 # Step 2: Load Chroma vector DB
