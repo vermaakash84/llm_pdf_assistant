@@ -23,12 +23,6 @@ logs/
 ~/.huggingface/
 huggingface/
 
-# Model weights/checkpoints
-*.bin
-*.pt
-*.h5
-*.ckpt
-
 # ZIP files (Chroma DB)
 # db_batch_1.zip
 # db_batch_2.zip
