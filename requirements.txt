@@ -6,3 +6,4 @@ transformers
 accelerate
 sentence-transformers
 chromadb
+pysqlite3-binary
