@@ -1,9 +1,13 @@
+# Fix for Chroma DB SQLite version issue - MUST be at the very top
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import streamlit as st
 import os
 from langchain.chains import RetrievalQA
-from langchain_community.vectorstores import Chroma
-from langchain_huggingface import HuggingFacePipeline
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_chroma import Chroma
+from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
 st.set_page_config(page_title="📄 LLM PDF Research Assistant")
@@ -38,7 +42,12 @@ try:
     model_name = "google/flan-t5-base"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
-    pipe = pipeline("text2text-generation", model=model, tokenizer=tokenizer, max_new_tokens=512)
+    pipe = pipeline(
+        "text2text-generation",
+        model=model,
+        tokenizer=tokenizer,
+        max_new_tokens=512
+    )
     llm = HuggingFacePipeline(pipeline=pipe)
 except Exception as e:
     st.error(f"Model loading failed: {e}")
@@ -47,7 +56,11 @@ except Exception as e:
 # -----------------------------
 # Step 3: RetrievalQA chain
 # -----------------------------
-qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, return_source_documents=True)
+qa_chain = RetrievalQA.from_chain_type(
+    llm=llm,
+    retriever=retriever,
+    return_source_documents=True
+)
 
 # -----------------------------
 # Step 4: Streamlit UI
