@@ -6,12 +6,13 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 import os
 
-# 🔧 FIXED IMPORT (LangChain 1.x compatible)
-from langchain.chains.retrieval_qa.base import RetrievalQA
-
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
+
+# LangChain 1.x LCEL imports
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_core.prompts import PromptTemplate
 
 st.set_page_config(page_title="📄 LLM PDF Research Assistant")
 
@@ -57,12 +58,25 @@ except Exception as e:
     st.stop()
 
 # -----------------------------
-# Step 3: RetrievalQA chain
+# Step 3: Build LCEL RAG Chain
 # -----------------------------
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    retriever=retriever,
-    return_source_documents=True
+prompt = PromptTemplate.from_template(
+    """You are a helpful research assistant. Use ONLY the following context to answer:
+
+{context}
+
+Question: {question}
+
+Answer:"""
+)
+
+rag_chain = (
+    RunnableParallel(
+        context=retriever | (lambda docs: "\n\n".join([d.page_content for d in docs])),
+        question=RunnablePassthrough()
+    )
+    | prompt
+    | llm
 )
 
 # -----------------------------
@@ -75,12 +89,8 @@ query = st.text_input("🔍 Ask your question:")
 if st.button("🚀 Get Answer") and query:
     with st.spinner("🤖 Thinking..."):
         try:
-            response = qa_chain.invoke(query)
+            result = rag_chain.invoke(query)
             st.subheader("🧠 Answer")
-            st.write(response['result'])
-
-            st.subheader("📄 Source Documents")
-            for doc in response['source_documents'][:3]:
-                st.markdown(f"- `{doc.metadata.get('source', 'Unknown')}`")
+            st.write(result)
         except Exception as e:
             st.error(f"❌ Failed to answer: {e}")
