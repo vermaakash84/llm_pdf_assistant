@@ -5,7 +5,10 @@ sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
 import os
-from langchain.chains import RetrievalQA
+
+# 🔧 FIXED IMPORT (LangChain 1.x compatible)
+from langchain.chains.retrieval_qa.base import RetrievalQA
+
 from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings, HuggingFacePipeline
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
