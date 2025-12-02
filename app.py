@@ -93,4 +93,4 @@ if st.button("🚀 Get Answer") and query:
             st.subheader("🧠 Answer")
             st.write(result)
         except Exception as e:
-            st.error(f"❌ Failed to answer: {e}")
+            st.error(f"❌ Failed to answer: {e}") 
